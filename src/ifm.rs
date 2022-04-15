@@ -1,3 +1,6 @@
+//! IFacialMocap tracker interface.
+//! This is called upon by VP3 Puppeteer.
+
 use std::net::UdpSocket;
 use crate::ifm_data::*;
 use gdnative::prelude::*;
@@ -5,6 +8,9 @@ use gdnative::prelude::*;
 #[derive(NativeClass)]
 #[inherit(Reference)]
 pub struct Ifacialmocap{
+    /// The iFacialMocap object is the main entrypoint for the iFacialMocap/Facemotion3D module.
+    /// This will listen to incoming UDP packets from the iFacialMocap/Facemotion3D client on your iOS device.
+    /// To use this module, you need to import this module to your Godot project.
     server: Option<UdpSocket>,
     data_map: Dictionary, // -> IfacialmocapData
 }
@@ -28,7 +34,7 @@ impl Ifacialmocap {
         self.server = Some(UdpSocket::bind("0.0.0.0:49983").unwrap());
         loop{
             let data_dict = Dictionary::new();
-            let mut buf = [0; 1024];
+            let mut buf = [0; 2048];
             let _packet = self.server.as_ref().unwrap().recv_from(&mut buf).unwrap();
             let data = &String::from_utf8((&buf).to_vec()).unwrap() as &str;
             let ifm_data = IfacialmocapData::from_str(data).as_json();
@@ -124,7 +130,7 @@ mod tests {
     #[test]
     fn listen_test(){
         let server = UdpSocket::bind("0.0.0.0:49983").unwrap();
-        let mut buf = [0; 1024];
+        let mut buf = [0; 2048];
         loop{
             let _packet = server.recv_from(&mut buf).unwrap();
             let data = &String::from_utf8((&buf).to_vec()).unwrap();
