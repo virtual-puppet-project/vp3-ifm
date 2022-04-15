@@ -1,5 +1,10 @@
+use gdnative::prelude::godot_warn;
+use serde::{Serialize, Deserialize};
+use serde_json::Value;
+
 // Don't warn for non-snakecase variables
-#![allow(non_snake_case)]
+#[allow(non_snake_case)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct IfacialmocapData {
     mouthSmile_R: f32,
     eyeLookOut_L: f32,
@@ -123,7 +128,7 @@ impl IfacialmocapData {
     // Phew that's long
 
     // Getter
-    pub fn get(self, key: &str) {
+    pub fn get(self, key: &str) -> f32 {
         match key {
             "mouthSmile_R" => self.mouthSmile_R,
             "eyeLookOut_L" => self.eyeLookOut_L,
@@ -177,16 +182,16 @@ impl IfacialmocapData {
             "eyeSquint_R" => self.eyeSquint_R,
             "eyeLookUp_L" => self.eyeLookUp_L,
             "mouthLeft" => self.mouthLeft,
-            _ => panic!("No such key"),
-        };
+            _ => panic!("No such key: {}", key),
+        }
     }
-    pub fn get_vec(self, key: &str) {
+    pub fn get_vec(self, key: &str) -> Vec<f32> {
         match key {
             "head" => self.head,
             "rightEye" => self.rightEye,
             "leftEye" => self.leftEye,
-            _ => panic!("No such key"),
-        };
+            _ => panic!("No such key: {}", key),
+        }
     }
     // Setter
     pub fn set(&mut self, key: &str, value: f32) {
@@ -243,7 +248,9 @@ impl IfacialmocapData {
             "eyeSquint_R" => self.eyeSquint_R = value,
             "eyeLookUp_L" => self.eyeLookUp_L = value,
             "mouthLeft" => self.mouthLeft = value,
-            _ => panic!("No such key"),
+            "hapihapi" => {}
+            // Do nothing if no such key
+            _ => {},
         };
     }
     pub fn set_vec(&mut self, key: &str, value: Vec<f32>) {
@@ -251,7 +258,7 @@ impl IfacialmocapData {
             "=head" => self.head = value,
             "rightEye" => self.rightEye = value,
             "leftEye" => self.leftEye = value,
-            _ => panic!("No such key"),
+            _ => {}
         };
     }
     pub fn from_str(data: &str) -> IfacialmocapData {
@@ -286,71 +293,21 @@ impl IfacialmocapData {
                 }
                 ifm_d.set_vec(key, vec);
             }
+            // If it's invalid, ignore it
+            else {
+                // Do nothing
+            }
         });
         // Return the data
         ifm_d
     }
-}
-use std::fmt::Debug;
-impl Debug for IfacialmocapData {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.debug_struct("IfacialmocapData")
-            .field("mouthSmile_R", &self.mouthSmile_R)
-            .field("eyeLookOut_L", &self.eyeLookOut_L)
-            .field("mouthUpperUp_L", &self.mouthUpperUp_L)
-            .field("eyeWide_R", &self.eyeWide_R)
-            .field("mouthClose", &self.mouthClose)
-            .field("mouthPucker", &self.mouthPucker)
-            .field("mouthRollLower", &self.mouthRollLower)
-            .field("eyeBlink_R", &self.eyeBlink_R)
-            .field("eyeLookDown_L", &self.eyeLookDown_L)
-            .field("cheekSquint_R", &self.cheekSquint_R)
-            .field("eyeBlink_L", &self.eyeBlink_L)
-            .field("tongueOut", &self.tongueOut)
-            .field("jawRight", &self.jawRight)
-            .field("eyeLookIn_R", &self.eyeLookIn_R)
-            .field("cheekSquint_L", &self.cheekSquint_L)
-            .field("mouthDimple_L", &self.mouthDimple_L)
-            .field("mouthPress_L", &self.mouthPress_L)
-            .field("eyeSquint_L", &self.eyeSquint_L)
-            .field("mouthRight", &self.mouthRight)
-            .field("mouthShrugLower", &self.mouthShrugLower)
-            .field("eyeLookUp_R", &self.eyeLookUp_R)
-            .field("eyeLookOut_R", &self.eyeLookOut_R)
-            .field("mouthPress_R", &self.mouthPress_R)
-            .field("cheekPuff", &self.cheekPuff)
-            .field("jawForward", &self.jawForward)
-            .field("mouthLowerDown_L", &self.mouthLowerDown_L)
-            .field("mouthFrown_L", &self.mouthFrown_L)
-            .field("mouthShrugUpper", &self.mouthShrugUpper)
-            .field("browOuterUp_L", &self.browOuterUp_L)
-            .field("browInnerUp", &self.browInnerUp)
-            .field("mouthDimple_R", &self.mouthDimple_R)
-            .field("browDown_R", &self.browDown_R)
-            .field("mouthUpperUp_R", &self.mouthUpperUp_R)
-            .field("mouthRollUpper", &self.mouthRollUpper)
-            .field("mouthFunnel", &self.mouthFunnel)
-            .field("mouthStretch_R", &self.mouthStretch_R)
-            .field("mouthFrown_R", &self.mouthFrown_R)
-            .field("eyeLookDown_R", &self.eyeLookDown_R)
-            .field("jawOpen", &self.jawOpen)
-            .field("jawLeft", &self.jawLeft)
-            .field("browDown_L", &self.browDown_L)
-            .field("mouthSmile_L", &self.mouthSmile_L)
-            .field("noseSneer_R", &self.noseSneer_R)
-            .field("mouthLowerDown_R", &self.mouthLowerDown_R)
-            .field("noseSneer_L", &self.noseSneer_L)
-            .field("eyeWide_L", &self.eyeWide_L)
-            .field("mouthStretch_L", &self.mouthStretch_L)
-            .field("browOuterUp_R", &self.browOuterUp_R)
-            .field("eyeLookIn_L", &self.eyeLookIn_L)
-            .field("eyeSquint_R", &self.eyeSquint_R)
-            .field("eyeLookUp_L", &self.eyeLookUp_L)
-            .field("mouthLeft", &self.mouthLeft)
-            .field("head", &self.head)
-            .field("rightEye", &self.rightEye)
-            .field("leftEye", &self.leftEye)
-            .finish()
+    pub fn as_json(&self) -> Value{
+        let serialized = serde_json::to_string(&self).unwrap();
+        let s: Value = serde_json::from_str(&serialized).unwrap();
+        // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        // The whole reason of this existing so I don't have to write my own serializer
+        // I'm going insane
+        s
     }
 }
 
@@ -362,6 +319,14 @@ mod tests {
     fn test_ifm_data() {
         let test_data = "mouthSmile_R-0|eyeLookOut_L-0|mouthUpperUp_L-11|eyeWide_R-0|mouthClose-8|mouthPucker-4|mouthRollLower-9|eyeBlink_R-7|eyeLookDown_L-17|cheekSquint_R-11|eyeBlink_L-7|tongueOut-0|jawRight-0|eyeLookIn_R-6|cheekSquint_L-11|mouthDimple_L-10|mouthPress_L-4|eyeSquint_L-11|mouthRight-0|mouthShrugLower-9|eyeLookUp_R-0|eyeLookOut_R-0|mouthPress_R-5|cheekPuff-2|jawForward-11|mouthLowerDown_L-9|mouthFrown_L-6|mouthShrugUpper-26|browOuterUp_L-4|browInnerUp-20|mouthDimple_R-10|browDown_R-0|mouthUpperUp_R-10|mouthRollUpper-8|mouthFunnel-12|mouthStretch_R-21|mouthFrown_R-13|eyeLookDown_R-17|jawOpen-12|jawLeft-0|browDown_L-0|mouthSmile_L-0|noseSneer_R-18|mouthLowerDown_R-8|noseSneer_L-21|eyeWide_L-0|mouthStretch_L-21|browOuterUp_R-4|eyeLookIn_L-4|eyeSquint_R-11|eyeLookUp_L-0|mouthLeft-1|=head#-21.488958,-6.038993,-6.6019735,-0.030653415,-0.10287084,-0.6584072|rightEye#6.0297494,2.4403017,0.25649446|leftEye#6.034903,-1.6660284,-0.17520553|";
         let ifm_data = IfacialmocapData::from_str(test_data);
-        println!("{:?}", &ifm_data);
+        let ser = serde_json::to_string(&ifm_data).unwrap();
+        println!("{}", ser);
+    }
+    #[test]
+    fn invalid_parse_test(){
+        let test_data = "mouthLeft-0|browInnerUp-6|mouthLowerDown_L-4|mouthDimple_R-2|mouthFunnel-5|eyeSquint_L-12|browOuterUp_L-0|mouthUpperUp_L-4|mouthFrown_R-2|eyeLookOut_R-0|mouthShrugUpper-11|eyeSquint_R-12|eyeLookDown_R-15|mouthRollLower-6|eyeLookDown_L-16|cheekSquint_L-9|mouthSmile_L-0|mouthRight-0|mouthDimple_L-2|jawRight-0|mouthPucker-24|mouthRollUpper-1|mouthPress_L-8|eyeLookOut_L-0|browDown_R-13|cheekSquint_R-8|mouthFrown_L-3|tongueOut-0|mouthPress_R-10|browDown_L-12|mouthLowerDown_R-4|eyeWide_L-2|cheekPuff-7|mouthSmile_R-0|eyeLookIn_L-0|eyeLookUp_L-0|jawForward-3|jawLeft-4|noseSneer_L-13|jawOpen-2|mouthStretch_R-8|eyeLookUp_R-0|mouthClose-4|eyeWide_R-2|eyeBlink_L-2|eyeLookIn_R-12|noseSneer_R-9|eyeBlink_R-2|mouthUpperUp_R-4|browOuterUp_R-0|mouthStretch_L-9|mouthShrugLower-14|hapihapi-0|=head#25.409164,-5.085786,3.8090365,0.052303925,0.2366666,-0.0259732|rightEye#5.2707267,4.227702,0.41178665|leftEye#5.300755,0.32921365,0.03218361|-0.67254096|||||3|";
+        let ifm_data = IfacialmocapData::from_str(test_data);
+        let ser = serde_json::to_string(&ifm_data).unwrap();
+        println!("{}", ser);
     }
 }
