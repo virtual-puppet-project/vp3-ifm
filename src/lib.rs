@@ -20,6 +20,7 @@ pub mod ifm_data;
 
 fn init(handle: InitHandle) {
     handle.add_class::<ifm::Ifacialmocap>();
+    handle.add_class::<ifm_data::IfacialmocapData>();
 }
 
 godot_init!(init);
