@@ -491,29 +491,29 @@ impl ToVariant for IfacialmocapData {
 
 #[cfg(test)]
 mod tests {
-    use crate::{ifm::Ifacialmocap, ifm_data::IfacialmocapData};
-    static test_data: &str = "mouthSmile_R-0|eyeLookOut_L-0|mouthUpperUp_L-11|eyeWide_R-0|mouthClose-8|mouthPucker-4|mouthRollLower-9|eyeBlink_R-7|eyeLookDown_L-17|cheekSquint_R-11|eyeBlink_L-7|tongueOut-0|jawRight-0|eyeLookIn_R-6|cheekSquint_L-11|mouthDimple_L-10|mouthPress_L-4|eyeSquint_L-11|mouthRight-0|mouthShrugLower-9|eyeLookUp_R-0|eyeLookOut_R-0|mouthPress_R-5|cheekPuff-2|jawForward-11|mouthLowerDown_L-9|mouthFrown_L-6|mouthShrugUpper-26|browOuterUp_L-4|browInnerUp-20|mouthDimple_R-10|browDown_R-0|mouthUpperUp_R-10|mouthRollUpper-8|mouthFunnel-12|mouthStretch_R-21|mouthFrown_R-13|eyeLookDown_R-17|jawOpen-12|jawLeft-0|browDown_L-0|mouthSmile_L-0|noseSneer_R-18|mouthLowerDown_R-8|noseSneer_L-21|eyeWide_L-0|mouthStretch_L-21|browOuterUp_R-4|eyeLookIn_L-4|eyeSquint_R-11|eyeLookUp_L-0|mouthLeft-1|=head#-21.488958,-6.038993,-6.6019735,-0.030653415,-0.10287084,-0.6584072|rightEye#6.0297494,2.4403017,0.25649446|leftEye#6.034903,-1.6660284,-0.17520553|";
-    static invalid_data: &str = "mouthLeft-0|browInnerUp-6|mouthLowerDown_L-4|mouthDimple_R-2|mouthFunnel-5|eyeSquint_L-12|browOuterUp_L-0|mouthUpperUp_L-4|mouthFrown_R-2|eyeLookOut_R-0|mouthShrugUpper-11|eyeSquint_R-12|eyeLookDown_R-15|mouthRollLower-6|eyeLookDown_L-16|cheekSquint_L-9|mouthSmile_L-0|mouthRight-0|mouthDimple_L-2|jawRight-0|mouthPucker-24|mouthRollUpper-1|mouthPress_L-8|eyeLookOut_L-0|browDown_R-13|cheekSquint_R-8|mouthFrown_L-3|tongueOut-0|mouthPress_R-10|browDown_L-12|mouthLowerDown_R-4|eyeWide_L-2|cheekPuff-7|mouthSmile_R-0|eyeLookIn_L-0|eyeLookUp_L-0|jawForward-3|jawLeft-4|noseSneer_L-13|jawOpen-2|mouthStretch_R-8|eyeLookUp_R-0|mouthClose-4|eyeWide_R-2|eyeBlink_L-2|eyeLookIn_R-12|noseSneer_R-9|eyeBlink_R-2|mouthUpperUp_R-4|browOuterUp_R-0|mouthStretch_L-9|mouthShrugLower-14|hapihapi-0|=head#25.409164,-5.085786,3.8090365,0.052303925,0.2366666,-0.0259732|rightEye#5.2707267,4.227702,0.41178665|leftEye#5.300755,0.32921365,0.03218361|-0.67254096|||||3|";
+    use crate::{ifm_data::IfacialmocapData};
+    static TEST_DATA: &str = "mouthSmile_R-0|eyeLookOut_L-0|mouthUpperUp_L-11|eyeWide_R-0|mouthClose-8|mouthPucker-4|mouthRollLower-9|eyeBlink_R-7|eyeLookDown_L-17|cheekSquint_R-11|eyeBlink_L-7|tongueOut-0|jawRight-0|eyeLookIn_R-6|cheekSquint_L-11|mouthDimple_L-10|mouthPress_L-4|eyeSquint_L-11|mouthRight-0|mouthShrugLower-9|eyeLookUp_R-0|eyeLookOut_R-0|mouthPress_R-5|cheekPuff-2|jawForward-11|mouthLowerDown_L-9|mouthFrown_L-6|mouthShrugUpper-26|browOuterUp_L-4|browInnerUp-20|mouthDimple_R-10|browDown_R-0|mouthUpperUp_R-10|mouthRollUpper-8|mouthFunnel-12|mouthStretch_R-21|mouthFrown_R-13|eyeLookDown_R-17|jawOpen-12|jawLeft-0|browDown_L-0|mouthSmile_L-0|noseSneer_R-18|mouthLowerDown_R-8|noseSneer_L-21|eyeWide_L-0|mouthStretch_L-21|browOuterUp_R-4|eyeLookIn_L-4|eyeSquint_R-11|eyeLookUp_L-0|mouthLeft-1|=head#-21.488958,-6.038993,-6.6019735,-0.030653415,-0.10287084,-0.6584072|rightEye#6.0297494,2.4403017,0.25649446|leftEye#6.034903,-1.6660284,-0.17520553|";
+    static INVALID_DATA: &str = "mouthLeft-0|browInnerUp-6|mouthLowerDown_L-4|mouthDimple_R-2|mouthFunnel-5|eyeSquint_L-12|browOuterUp_L-0|mouthUpperUp_L-4|mouthFrown_R-2|eyeLookOut_R-0|mouthShrugUpper-11|eyeSquint_R-12|eyeLookDown_R-15|mouthRollLower-6|eyeLookDown_L-16|cheekSquint_L-9|mouthSmile_L-0|mouthRight-0|mouthDimple_L-2|jawRight-0|mouthPucker-24|mouthRollUpper-1|mouthPress_L-8|eyeLookOut_L-0|browDown_R-13|cheekSquint_R-8|mouthFrown_L-3|tongueOut-0|mouthPress_R-10|browDown_L-12|mouthLowerDown_R-4|eyeWide_L-2|cheekPuff-7|mouthSmile_R-0|eyeLookIn_L-0|eyeLookUp_L-0|jawForward-3|jawLeft-4|noseSneer_L-13|jawOpen-2|mouthStretch_R-8|eyeLookUp_R-0|mouthClose-4|eyeWide_R-2|eyeBlink_L-2|eyeLookIn_R-12|noseSneer_R-9|eyeBlink_R-2|mouthUpperUp_R-4|browOuterUp_R-0|mouthStretch_L-9|mouthShrugLower-14|hapihapi-0|=head#25.409164,-5.085786,3.8090365,0.052303925,0.2366666,-0.0259732|rightEye#5.2707267,4.227702,0.41178665|leftEye#5.300755,0.32921365,0.03218361|-0.67254096|||||3|";
 
-    static fm_data: &str = "browInnerUp&4|mouthPucker&6|eyeSquintRight&2|tongueOut&0|mouthLeft&0|mouthLowerDownRight&1|mouthDimpleRight&1|browDownRight&0|mouthUpperUpRight&3|mouthRollUpper&0|cheekSquintLeft&3|mouthFunnel0|browOuterUpLeft&0|noseSneerRight&9|mouthLowerDownLeft&1|mouthPucker&6|mouthStretchRight&4|mouthPressRight&7|eyeLookDownRight&21|eyeLookOutLeft&0|tongueOut&0|eyeLookDownLeft&21|jawOpen&0|mouthShrugLower&14|FM_SAD&0|FM_ANGRY&0|FM_VF&0|FM_TH&0|FM_browUpRight&0|FM_browUpLeft&0|hapihapi&0|=head#0.80720806,2.406476,1.3182178,-0.020704115,-0.054985482,-0.23076123|rightEye#0.15436459,0.543746,0.0|leftEye#0.16736937,0.5399485,0.0||0|.0|.0|||";
-    static fm_data_v1: &str = "browInnerUp-4|mouthPucker-6|eyeSquint_R-2|tongueOut-0|mouth_L-0|mouthLowerDown_R-1|mouthDimple_R-1|browDown_R-0|mouthUpperUp_R-3|mouthRollUpper-0|cheekSquint_L-3|mouthFunnel0|browOuterUp_L-0|noseSneer_R-9|mouthLowerDown_L-1|mouthPucker-6|mouthStretch_R-4|mouthPress_R-7|eyeLookDown_R-21|eyeLookOut_L-0|tongueOut-0|eyeLookDown_L-21|jawOpen-0|mouthShrugLower-14|FM_SAD-0|FM_ANGRY-0|FM_VF-0|FM_TH-0|FM_browUp_R-0|FM_browUp_L-0|hapihapi-0|=head#0.80720806,2.406476,1.3182178,-0.020704115,-0.054985482,-0.23076123|_REye#0.15436459,0.543746,0.0|_LEye#0.16736937,0.5399485,0.0||0|.0|.0|||";
+    static FM_DATA: &str = "browInnerUp&4|mouthPucker&6|eyeSquintRight&2|tongueOut&0|mouthLeft&0|mouthLowerDownRight&1|mouthDimpleRight&1|browDownRight&0|mouthUpperUpRight&3|mouthRollUpper&0|cheekSquintLeft&3|mouthFunnel0|browOuterUpLeft&0|noseSneerRight&9|mouthLowerDownLeft&1|mouthPucker&6|mouthStretchRight&4|mouthPressRight&7|eyeLookDownRight&21|eyeLookOutLeft&0|tongueOut&0|eyeLookDownLeft&21|jawOpen&0|mouthShrugLower&14|FM_SAD&0|FM_ANGRY&0|FM_VF&0|FM_TH&0|FM_browUpRight&0|FM_browUpLeft&0|hapihapi&0|=head#0.80720806,2.406476,1.3182178,-0.020704115,-0.054985482,-0.23076123|rightEye#0.15436459,0.543746,0.0|leftEye#0.16736937,0.5399485,0.0||0|.0|.0|||";
+    static FM_DATA_V1: &str = "browInnerUp-4|mouthPucker-6|eyeSquint_R-2|tongueOut-0|mouth_L-0|mouthLowerDown_R-1|mouthDimple_R-1|browDown_R-0|mouthUpperUp_R-3|mouthRollUpper-0|cheekSquint_L-3|mouthFunnel0|browOuterUp_L-0|noseSneer_R-9|mouthLowerDown_L-1|mouthPucker-6|mouthStretch_R-4|mouthPress_R-7|eyeLookDown_R-21|eyeLookOut_L-0|tongueOut-0|eyeLookDown_L-21|jawOpen-0|mouthShrugLower-14|FM_SAD-0|FM_ANGRY-0|FM_VF-0|FM_TH-0|FM_browUp_R-0|FM_browUp_L-0|hapihapi-0|=head#0.80720806,2.406476,1.3182178,-0.020704115,-0.054985482,-0.23076123|_REye#0.15436459,0.543746,0.0|_LEye#0.16736937,0.5399485,0.0||0|.0|.0|||";
 
     #[test]
     fn test_ifm_data() {
-        let ifm_data = IfacialmocapData::from_str(test_data);
+        let ifm_data = IfacialmocapData::from_str(TEST_DATA);
         println!("{:?}", ifm_data);
     }
     #[test]
     fn test_fm_data() {
-        let ifm_data = IfacialmocapData::from_str(fm_data);
-        let ser = serde_json::to_string(&ifm_data).unwrap();
+        let ifm_data = IfacialmocapData::from_str(FM_DATA);
+        //let ser = serde_json::to_string(&ifm_data).unwrap();
 
-        let ifm_data_v1 = IfacialmocapData::from_str(fm_data_v1);
+        let ifm_data_v1 = IfacialmocapData::from_str(FM_DATA_V1);
         assert_eq!(ifm_data, ifm_data_v1);
     }
     #[test]
     fn invalid_parse_test() {
-        let ifm_data = IfacialmocapData::from_str(invalid_data);
+        let ifm_data = IfacialmocapData::from_str(INVALID_DATA);
         let ser = serde_json::to_string(&ifm_data).unwrap();
         println!("{}", ser);
     }

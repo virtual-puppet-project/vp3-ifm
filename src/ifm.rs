@@ -3,7 +3,7 @@
 
 use crate::ifm_data::*;
 use gdnative::prelude::*;
-use std::{net::UdpSocket, thread};
+use std::{net::UdpSocket};
 
 const RUN_FACE_TRACKER_TEXT: &str = "run_face_tracker";
 const STOP_FACE_TRACKER_TEXT: &str = "stop_face_tracker";
@@ -34,13 +34,8 @@ impl Ifacialmocap {
     #[export]
     fn _ready(&mut self, _owner: &Node) {
         godot_print!("hello, world.");
-        // Start tracker in a separate thread
-        // The tracker requires a mutable self
-        let mut tracker = Ifacialmocap::new(_owner);
-        let handle = thread::spawn(move || {
-            tracker._start_tracker();
-        });
-        handle.join().unwrap();
+        self.start_reciever(_owner);
+        self.stop_reciever(_owner);
     }
     fn register_signals(builder: &ClassBuilder<Self>) {
         builder.signal(&RUN_FACE_TRACKER_TEXT)
@@ -48,11 +43,9 @@ impl Ifacialmocap {
         builder.signal(&STOP_FACE_TRACKER_TEXT)
             .done();
     }
-
-    fn _start_tracker(&mut self) {
-        // TODO: Why does this cause a Buffer Overrun?
-        self.server = Some(UdpSocket::bind("0.0.0.0:49983").unwrap());
-        loop {
+    #[export]
+    fn _process(&mut self, _owner: &Node, _delta: f64) {
+        if self.is_listening(_owner){
             let mut buf = [0; 2048];
             let (size, _origin) = self.server.as_ref().unwrap().recv_from(&mut buf).unwrap();
             let _packet = self.server.as_ref().unwrap().recv_from(&mut buf).unwrap();
@@ -87,7 +80,7 @@ impl Ifacialmocap {
     }
     #[export]
     pub fn start_reciever(&mut self, _owner: &Node) {
-        self._start_tracker();
+        self.server = Some(UdpSocket::bind("0.0.0.0:49983").unwrap());
     }
     #[export]
     pub fn stop_reciever(&mut self, _owner: &Node) {
@@ -103,5 +96,5 @@ impl Ifacialmocap {
 
 #[cfg(test)]
 mod tests {
-    use crate::{ifm::*, ifm_data};
+    //use crate::{ifm::*, ifm_data};
 }
