@@ -16,19 +16,13 @@ pub struct Ifacialmocap {
     data_map: Dictionary, // -> IfacialmocapData
 }
 
-
-pub struct funny_debug {
-    dict: Dictionary,
-}
-
-
 #[methods]
 impl Ifacialmocap {
     fn new() -> Self {
         Ifacialmocap {
             server: None,
             // Shared dictionary
-            data_map: Dictionary::new().into_shared(),
+            data_map: Dictionary::new_shared(),
         }
     }
 
@@ -95,11 +89,5 @@ mod tests {
     fn listen_test() {
         let mut ifm = Ifacialmocap::new();
         ifm._start_tracker();
-    }
-    #[test]
-    fn godot_debug() {
-        funny_debug {
-            dict: Dictionary::new_shared(),
-        };
     }
 }
