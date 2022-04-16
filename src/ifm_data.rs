@@ -375,7 +375,7 @@ impl IfacialmocapData {
                 } else {
                     let key = pair.0;
                     let value = pair.1;
-                    ifm_d.set(key, value.parse::<f32>().unwrap());
+                    ifm_d.set(key, value.parse::<f32>().unwrap_or_default());
                 }
                 // special exception: Check if key contains #
             }
@@ -385,7 +385,8 @@ impl IfacialmocapData {
                 // convert to Vec<f32>
                 let mut vec = Vec::new();
                 for i in value {
-                    vec.push(i.parse::<f32>().unwrap());
+                    vec.push(i.parse::<f32>()
+                    .unwrap_or_default());
                 }
                 ifm_d.set_vec(key, vec);
             }
@@ -408,6 +409,13 @@ impl IfacialmocapData {
 
     #[export]
     pub fn read_from_packet(&self, _owner: &Reference, bytes: ByteArray) -> IfacialmocapData {
+        // Convert to str
+        let data = String::from_utf8(bytes.to_vec()).unwrap();
+        // Parse the data
+        IfacialmocapData::from_str(&data)
+    }
+
+    pub fn _read_from_packet(bytes: ByteArray) -> IfacialmocapData {
         // Convert to str
         let data = String::from_utf8(bytes.to_vec()).unwrap();
         // Parse the data
